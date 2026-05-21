@@ -1,7 +1,7 @@
 // The provided course information.
 const CourseInfo = {
   id: 451,
-  name: "Introduction to JavaScript"
+  name: "Introduction to JavaScript",
 };
 
 // The provided assignment group.
@@ -15,21 +15,21 @@ const AssignmentGroup = {
       id: 1,
       name: "Declare a Variable",
       due_at: "2023-01-25",
-      points_possible: 50
+      points_possible: 50,
     },
     {
       id: 2,
       name: "Write a Function",
       due_at: "2023-02-27",
-      points_possible: 150
+      points_possible: 150,
     },
     {
       id: 3,
       name: "Code the World",
       due_at: "3156-11-15",
-      points_possible: 500
-    }
-  ]
+      points_possible: 500,
+    },
+  ],
 };
 
 // The provided learner submission data.
@@ -39,123 +39,140 @@ const LearnerSubmissions = [
     assignment_id: 1,
     submission: {
       submitted_at: "2023-01-25",
-      score: 47
-    }
+      score: 47,
+    },
   },
   {
     learner_id: 125,
     assignment_id: 2,
     submission: {
       submitted_at: "2023-02-12",
-      score: 150
-    }
+      score: 150,
+    },
   },
   {
     learner_id: 125,
     assignment_id: 3,
     submission: {
       submitted_at: "2023-01-25",
-      score: 400
-    }
+      score: 400,
+    },
   },
   {
     learner_id: 132,
     assignment_id: 1,
     submission: {
       submitted_at: "2023-01-24",
-      score: 39
-    }
+      score: 39,
+    },
   },
   {
     learner_id: 132,
     assignment_id: 2,
     submission: {
       submitted_at: "2023-03-07",
-      score: 140
-    }
-  }
+      score: 140,
+    },
+  },
 ];
 
 function getLearnerData(course, ag, submissions) {
   // here, we would process this data to achieve the desired result.
- 
- //step 1:figure out number of learners and how many report objects we need
- // learner info inside the learner submission array
 
- const result = []
-// keep track of ids
-const ids = []
-//for loop over submissions array to get one leatner at a time
+  //step 1:figure out number of learners and how many report objects we need
+  // learner info inside the learner submission array
 
-for (let sub of submissions) {
-  //using include method to check the learner id in the array
-  if (ids.includes(sub.learner_id) !== true) { //would mean that current id is not in array and is unique
-    ids.push(sub.learner_id);
-  }
-   
-}
+  const result = [];
+  // keep track of ids
+  const ids = [];
+  //for loop over submissions array to get one leatner at a time
 
-console.log(ids)
-
-// create learner objects
-
-
-
-for (let learnerId of ids) {
- console.log("Learner ID: ", learnerId);
-
- let score = 0;
- let totalPossiblePoints = 0;
-
- for(let i = 0; i < submissions.length; i++){
-  if (learnerId === submissions[i].learner_id){
-    console.log("Submission score: "+submissions[i].submission.score);
-    score += submissions[i].submission.score;
-    console.log("Points possible: "+ag.assignments[0].points_possible);
-    
-    let assignmentId = submissions[i].assignment_id;
-
-    for (let assignment of ag.assignments) {
-
-      if (assignment.id === assignmentId){ // find matching assignment
-        console.log("Points possible: "+assignment.points_possible);
-        totalPossiblePoints += assignment.points_possible;
-
-      }
+  for (let sub of submissions) {
+    //using include method to check the learner id in the array
+    if (ids.includes(sub.learner_id) !== true) {
+      //would mean that current id is not in array and is unique
+      ids.push(sub.learner_id);
     }
   }
-  
- }
- console.log("total score: "+score) // both loops should give me the learner scores and total possible points
 
- //calculate the avg
+  console.log(ids);
 
- let avg = score / totalPossiblePoints;
+  // create learner objects
 
- console.log("Total Possible: "+totalPossiblePoints);
- console.log("Average: ", avg);
+  for (let learnerId of ids) {
+    console.log("Learner ID: ", learnerId);
 
- //should get score= 597, tpp= 700, avg= 0.85 for learner 125
-//REMINDER-- find out why possible points keeps showing another one that says 50
+    let score = 0;
+    let totalPossiblePoints = 0;
 
-  let learnerReport = { 
-    id: learnerId,
-    avg: avg
+    for (let i = 0; i < submissions.length; i++) {
+      try{
+        if (learnerId === submissions[i].learner_id) {
+        console.log("Submission score: " + submissions[i].submission.score);
+        score += submissions[i].submission.score;
+        console.log("Points possible: " + ag.assignments[0].points_possible);
+// assignment loop
+        let assignmentId = submissions[i].assignment_id;
+
+        for (let assignment of ag.assignments) {
+
+          //need to skip the future assignments
+          //let today = new Date();
+          
+          if (assignment.id === assignmentId) {
+            // find matching assignment
+            console.log("Points possible: " + assignment.points_possible);
+            totalPossiblePoints += assignment.points_possible;
+
+            
+          }
+          } 
+          
+        }
+        
+      }
+      catch(error) {
+              console.log("Error")
+          }
+
+
+
+
+
+
+
+
+      }
+      
+    }
+    console.log("total score: " + score); // both loops should give me the learner scores and total possible points
+
+    //calculate the avg
+
+    let avg = score / totalPossiblePoints;
+
+    console.log("Total Possible: " + totalPossiblePoints);
+    console.log("Average: ", avg);
+
+    //should get score= 597, tpp= 700, avg= 0.85 for learner 125
+    //REMINDER-- find out why possible points keeps showing another one that says 50
+    // need to add continue somwhere
+    //figure out loop for skipping future assignements
+    let learnerReport = {
+      id: learnerId,
+      avg: avg,
+    };
+    console.log(learnerReport);
+    result.push(learnerReport);
   }
-   console.log(learnerReport)
-  result.push(learnerReport);
-
-}
-
-
 
   return result;
-}
+
 
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
-//console.log(result);
 
+//console.log(result);
 
 /*Task for each submission:
 
@@ -167,24 +184,17 @@ Calculate assignment percentage
 Add score toward weighted average
 Store result under learner object */
 
-
-
-
-
-
-
-
-  // const result = [
-  //   {
-  //     id: 125,
-  //     avg: 0.985, // (47 + 150) / (50 + 150)
-  //     1: 0.94, // 47 / 50
-  //     2: 1.0 // 150 / 150
-  //   },
-  //   {
-  //     id: 132,
-  //     avg: 0.82, // (39 + 125) / (50 + 150)
-  //     1: 0.78, // 39 / 50
-  //     2: 0.833 // late: (140 - 15) / 150
-  //   }
-  // ];
+// const result = [
+//   {
+//     id: 125,
+//     avg: 0.985, // (47 + 150) / (50 + 150)
+//     1: 0.94, // 47 / 50
+//     2: 1.0 // 150 / 150
+//   },
+//   {
+//     id: 132,
+//     avg: 0.82, // (39 + 125) / (50 + 150)
+//     1: 0.78, // 39 / 50
+//     2: 0.833 // late: (140 - 15) / 150
+//   }
+// ];
