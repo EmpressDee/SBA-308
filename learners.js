@@ -99,10 +99,26 @@ console.log(ids)
 
 // create learner objects
 
+let score = 0
+
 for (let learnerId of ids) {
+ console.log(learnerId)
+
+ for(let i = 0; i < submissions.length; i++){
+  if (learnerId === submissions[i].learnerId){
+    console.log(submissions[i].submission.score)
+    score += submissions[i].submission.score
+    ag.assignments[0].points_possible
+  }
+  
+ }
+ console.log("total score: "+score)
   let learnerReport = {
     id: learnerId
   }
+   console.log(learnerReport)
+  result.push(learnerReport);
+
 }
 
 
