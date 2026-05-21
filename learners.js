@@ -99,20 +99,33 @@ console.log(ids)
 
 // create learner objects
 
-let score = 0
+
 
 for (let learnerId of ids) {
- console.log(learnerId)
+ console.log("Learner ID: ", learnerId);
+
+ let score = 0;
 
  for(let i = 0; i < submissions.length; i++){
-  if (learnerId === submissions[i].learnerId){
-    console.log(submissions[i].submission.score)
-    score += submissions[i].submission.score
-    ag.assignments[0].points_possible
+  if (learnerId === submissions[i].learner_id){
+    console.log("Submission score: "+submissions[i].submission.score);
+    score += submissions[i].submission.score;
+    console.log("Points possible: "+ag.assignments[0].points_possible);
+
+    let assignmentId = submissions[i].assignment_id;
+
+    for (let assignment of ag.assignments) {
+
+      if (assignment.id === assignmentId){
+        console.log("Points possible: "+assignment.points_possible);
+      }
+    }
   }
   
  }
  console.log("total score: "+score)
+
+
   let learnerReport = {
     id: learnerId
   }
@@ -123,7 +136,7 @@ for (let learnerId of ids) {
 
 
 
-  //return result;
+  return result;
 }
 
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
