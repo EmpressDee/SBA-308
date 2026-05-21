@@ -78,25 +78,71 @@ const LearnerSubmissions = [
 
 function getLearnerData(course, ag, submissions) {
   // here, we would process this data to achieve the desired result.
-  const result = [
-    {
-      id: 125,
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
-    }
-  ];
+ 
+ //step 1:figure out number of learners and how many report objects we need
+ // learner info inside the learner submission array
 
-  return result;
+ const result = []
+// keep track of ids
+const ids = []
+//for loop over submissions array to get one leatner at a time
+
+for (let sub of submissions) {
+  //using include method to check the learner id in the array
+  if (ids.includes(sub.learner_id) !== true) { //would mean that current id is not in array and is unique
+    ids.push(sub.learner_id);
+  }
+   
+}
+
+console.log(ids)
+
+// create learner objects
+
+for (let learnerId of ids) {
+  let learnerReport = {
+    id: learnerId
+  }
+}
+
+
+
+  //return result;
 }
 
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
-console.log(result);
+//console.log(result);
 
+
+/*Task for each submission:
+
+Find the matching assignment
+Ignore assignments not yet due
+Check for invalid data
+Apply late penalty if needed
+Calculate assignment percentage
+Add score toward weighted average
+Store result under learner object */
+
+
+
+
+
+
+
+
+  // const result = [
+  //   {
+  //     id: 125,
+  //     avg: 0.985, // (47 + 150) / (50 + 150)
+  //     1: 0.94, // 47 / 50
+  //     2: 1.0 // 150 / 150
+  //   },
+  //   {
+  //     id: 132,
+  //     avg: 0.82, // (39 + 125) / (50 + 150)
+  //     1: 0.78, // 39 / 50
+  //     2: 0.833 // late: (140 - 15) / 150
+  //   }
+  // ];
