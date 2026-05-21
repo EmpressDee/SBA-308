@@ -105,29 +105,42 @@ for (let learnerId of ids) {
  console.log("Learner ID: ", learnerId);
 
  let score = 0;
+ let totalPossiblePoints = 0;
 
  for(let i = 0; i < submissions.length; i++){
   if (learnerId === submissions[i].learner_id){
     console.log("Submission score: "+submissions[i].submission.score);
     score += submissions[i].submission.score;
     console.log("Points possible: "+ag.assignments[0].points_possible);
-
+    
     let assignmentId = submissions[i].assignment_id;
 
     for (let assignment of ag.assignments) {
 
-      if (assignment.id === assignmentId){
+      if (assignment.id === assignmentId){ // find matching assignment
         console.log("Points possible: "+assignment.points_possible);
+        totalPossiblePoints += assignment.points_possible;
+
       }
     }
   }
   
  }
- console.log("total score: "+score)
+ console.log("total score: "+score) // both loops should give me the learner scores and total possible points
 
+ //calculate the avg
 
-  let learnerReport = {
-    id: learnerId
+ let avg = score / totalPossiblePoints;
+
+ console.log("Total Possible: "+totalPossiblePoints);
+ console.log("Average: ", avg);
+
+ //should get score= 597, tpp= 700, avg= 0.85 for learner 125
+//REMINDER-- find out why possible points keeps showing another one that says 50
+
+  let learnerReport = { 
+    id: learnerId,
+    avg: avg
   }
    console.log(learnerReport)
   result.push(learnerReport);
